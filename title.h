@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node_struct {
-    void *data;
-    struct node_struct *next;
+struct title_basics {
+    char *tconst;
+    char *primaryTitle;
 };
 
 struct node_struct *txt2words (FILE *fp);

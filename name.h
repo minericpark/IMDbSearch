@@ -5,10 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node_struct {
-    void *data;
-    struct node_struct *next;
+struct name_basics {
+    char *nconst;
+    char *primaryName;
 };
 
+struct name_basics get_name(char *path);
 struct node_struct *txt2words (FILE *fp);
 struct node_struct *search (struct node_struct *list, char *target, int (*compar)(const void *, const void *));

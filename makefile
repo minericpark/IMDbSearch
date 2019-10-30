@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -ansi -pedantic -Iincludes 
 DEP = text.h
 
-all: text
+all: binary name title principals a3
 
 binary: binary.c binary.h common.h
 	$(CC) $(CFLAGS) binary.c -o binary
