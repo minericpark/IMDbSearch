@@ -1,4 +1,5 @@
 #include "name.h"
+#include "common.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
