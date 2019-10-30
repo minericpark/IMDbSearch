@@ -8,8 +8,8 @@ char *get_column (char *line, char *copyTarget, int colNum) {
 
     int i;
     int tabNum = 0;
-    int firstLoc;
-    int secLoc;
+    int firstLoc = 0;
+    int secLoc = 0;
 
     for (i = 0; i < strlen(line); i++) {
         if (colNum == 1) { /*If first column requested*/

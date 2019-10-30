@@ -10,4 +10,4 @@ struct name_basics {
     char *primaryName;
 };
 
-struct name_basics get_name(char *path);
+struct name_basics *get_name(char *path);
