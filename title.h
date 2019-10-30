@@ -9,6 +9,3 @@ struct title_basics {
     char *tconst;
     char *primaryTitle;
 };
-
-struct node_struct *txt2words (FILE *fp);
-struct node_struct *search (struct node_struct *list, char *target, int (*compar)(const void *, const void *));

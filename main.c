@@ -1,14 +1,13 @@
-#include "name.c"
+#include "name.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
-int main() {
+int main(void) {
 
     struct name_basics test;
 
-    printf ("Hello world");
-    test = get_name("hello");
+    test = get_name("data");
     return 0;
 }

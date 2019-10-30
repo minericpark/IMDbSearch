@@ -1,23 +1,27 @@
 CC=gcc
-CFLAGS=-Wall -ansi -pedantic -Iincludes 
+CFLAGS=-Wall -ansi -pedantic
 DEP = text.h
 
-all: binary name title principals a3
+all: binary name title principals main common
+	$(CC) $(CFLAGS) -o a3 main.o binary.o common.o name.o principals.o title.o
+
+main: main.c binary.h common.h title.h principals.h name.h
+	$(CC) $(CFLAGS) -c main.c -o main.o
 
 binary: binary.c binary.h common.h
-	$(CC) $(CFLAGS) binary.c -o binary
+	$(CC) $(CFLAGS) -c binary.c -o binary.o
+
+common: common.c common.h
+	$(CC) $(CFLAGS) -c common.c -o common.o
 
 name: name.c name.h binary.h common.h
-	$(CC) $(CFLAGS) name.c -o name
-
-title: title.c title.h binary.h common.h
-	$(CC) $(CFLAGS) title.c -o title
+	$(CC) $(CFLAGS) -c name.c -o name.o
 
 principals: principals.c principals.h binary.h common.h
-	$(CC) $(CFLAGS) principals.c -o principals
+	$(CC) $(CFLAGS) -c principals.c -o principals.o
 
-a3: main.c binary.h common.h title.h principals.h name.h
-	$(CC) $(CLAGS) main.c -o main
+title: title.c title.h binary.h common.h
+	$(CC) $(CFLAGS) -c title.c -o title.o
 
 clean:
-	rm binary.o name.o title.o principals.o a3.o
+	rm bin/*
