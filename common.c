@@ -30,7 +30,7 @@ char *get_column (char *line, char *copyTarget, int colNum) {
                 tabNum++;
                 /*Error case for first or final col*/
                 if (tabNum == colNum - 1) {
-                    firstLoc = i;
+                    firstLoc = i + 1;
                 }
                 if (tabNum == colNum) {
                     secLoc = i;

@@ -40,7 +40,6 @@ struct name_basics *get_name (char *path) {
         /*printf ("%s\n", tempLine);*/
         tempString = malloc(sizeof(char) * 50 + 1);
         tempString = get_column(tempLine, tempString, 5);
-        tempString = realloc(tempString, strlen(tempString) + 1);
 
         checkRole = strstr(tempString, actorString);
         if (checkRole) {/*
@@ -56,33 +55,37 @@ struct name_basics *get_name (char *path) {
         }
         /*
         printf ("%s\n", tempString);*/
-        memset(tempString, 0, strlen(tempString));
+        tempString[0] = '\0';
+        if (checkRole != NULL) {
+            checkRole[0] = '\0';
+        }
         free(tempString);
     }
+
+    fseek(fp, 0, SEEK_SET);
     printf ("# of Actor/Actresses: %d\n", numRole);
 
     completeList = malloc(sizeof(struct name_basics) * numRole);
-
-    fseek(fp, 0, SEEK_SET);
 
     /*Create structures*/
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
         tempString = malloc(sizeof(char) * 50 + 1);
         tempString = get_column(tempLine, tempString, 5);
-        tempString = realloc(tempString, strlen(tempString) + 1);
-        tempID = malloc(sizeof(char) * 50 + 1);
+
+        tempID = malloc(sizeof(char) * 100 + 1);
         tempID = get_column(tempLine, tempID, 1);
-        tempID = realloc(tempID, strlen(tempID) + 1);
-        tempName = malloc(sizeof(char) * 50 + 1);
+
+        tempName = malloc(sizeof(char) * 100 + 1);
         tempName = get_column(tempLine, tempName, 2);
-        tempName = realloc(tempName, strlen(tempName) + 1);
 
         checkRole = strstr(tempString, actorString);
         if (checkRole) {/*
             printf ("%s\n", checkRole);*/
-            /*Get 1st and 2nd column*/
-            printf ("%s: %s\n", tempID, tempName);
-            completeList[structNum].nconst = (char *) tempID;
+            /*Get 1st and 2nd column*//*
+            printf ("%s: %s\n", tempID, tempName);*/
+            completeList[structNum].nconst = malloc (strlen(tempID) + 1);
+            completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
+            strcpy(completeList[structNum].nconst, (char *) tempID);
             strcpy(completeList[structNum].primaryName, tempName);
             structNum++;
         }
@@ -92,20 +95,22 @@ struct name_basics *get_name (char *path) {
                 printf ("%s\n", checkRole);*/
                 /*Get 1st and 2nd column*/
                 /*fix structure creation*/
-                /*weird gibberish at front two letters*/
-                printf ("%s: %s\n", tempID, tempName);
-                completeList[structNum].nconst = (char *) tempID;
+                /*weird gibberish at front two letters*//*
+                printf ("%s: %s\n", tempID, tempName);*/
+                completeList[structNum].nconst = malloc (strlen(tempID) + 1);
+                completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
+                strcpy(completeList[structNum].nconst, (char *) tempID);
                 strcpy(completeList[structNum].primaryName, tempName);
                 structNum++;
             }
         }
         /*
         printf ("%s\n", tempString);*/
-        memset(tempString, 0, strlen(tempString));
-        memset(tempID, 0, strlen(tempID));
-        memset(tempName, 0, strlen(tempName));
+        tempString[0] = '\0';
         free(tempString);
+        tempID[0] = '\0';
         free(tempID);
+        tempName[0] = '\0';
         free(tempName);
     }
 

@@ -10,12 +10,17 @@ int main(void) {
     struct name_basics *test;
     int i =0;
 
-    test = get_name("data");
+    test = get_name("fulldata");
+
 
     for (i = 0; i < 81; i++) {
-        printf ("%s, %s", test[i].nconst, test[i].primaryName);
+        printf ("%s - %s\n", test[i].nconst, test[i].primaryName);
     }
-
+    for (i = 0; i < 81; i++) {
+        free(test[i].nconst);
+        free(test[i].primaryName);
+    }
     free(test);
+
     return 0;
 }
