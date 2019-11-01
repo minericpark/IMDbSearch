@@ -41,6 +41,6 @@ char *get_column (char *line, char *copyTarget, int colNum) {
     }
 
     strncpy(copyTarget, line + firstLoc, secLoc - firstLoc);
-    copyTarget[strlen(copyTarget)] = '\0';
+    copyTarget[secLoc - firstLoc] = '\0';
     return copyTarget;
 }

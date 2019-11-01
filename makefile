@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -ansi -pedantic
+CFLAGS=-Wall -ansi -pedantic -g
 DEP = text.h
 
 all: binary name title principals main common

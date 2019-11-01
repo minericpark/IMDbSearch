@@ -10,25 +10,29 @@ struct name_basics *get_name (char *path) {
     struct name_basics *completeList;
     char *fullPath;
     char *tempString;
+    char *tempString2;
     char *tempName;
     char *tempID;
-    char *actorString;
-    char *actressString;
     char *checkRole;
-    char tempLine[256];
+    char *buffer;
+    char *buffer2;
+    char *buffer3;
+    char *buffer4;
+    char *actorString = "actor";
+    char *actressString = "actress";
+    char *fileName = "/name.basics.tsv";
+    char tempLine[255];
     int numRole = 0;
-    int *indexVals;
     int structNum = 0;
     FILE *fp;
 
-    fullPath = malloc(strlen(path) + 17);
-    actorString = malloc(sizeof(char)*5 + 1);
-    actressString = malloc(sizeof(char)*7 + 1);
+    fullPath = malloc(strlen(path) + strlen(fileName) + 1);
+    if (fullPath == NULL) {
+        printf ("fullpath failed");
+    }
     /*Complete file name*/
     strcpy(fullPath, path);
-    strcat(fullPath, "/name.basics.tsv");
-    strcpy(actorString, "actor");
-    strcpy(actressString, "actress");
+    strcat(fullPath, fileName);
     /*printf ("%s\n", fullPath);*/
 
     if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
@@ -38,8 +42,19 @@ struct name_basics *get_name (char *path) {
     /*Find all instances of actors/actresses*/
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
         /*printf ("%s\n", tempLine);*/
-        tempString = malloc(sizeof(char) * 50 + 1);
-        tempString = get_column(tempLine, tempString, 5);
+        buffer = malloc(sizeof(char) * 50 + 1);
+        if (buffer == NULL) {
+            printf ("buffer failed");
+        }
+        /*Copy into tempString, the buffer*/
+        buffer = get_column(tempLine, buffer, 5);
+        tempString = malloc(strlen(buffer) + 1);
+        if (buffer == NULL) {
+            printf ("tempstring failed");
+        }
+        strcpy(tempString, buffer);
+        memset(buffer, 0, strlen(buffer));
+        free(buffer);
 
         checkRole = strstr(tempString, actorString);
         if (checkRole) {/*
@@ -55,9 +70,9 @@ struct name_basics *get_name (char *path) {
         }
         /*
         printf ("%s\n", tempString);*/
-        tempString[0] = '\0';
+        memset(tempString, 0, strlen(tempString));
         if (checkRole != NULL) {
-            checkRole[0] = '\0';
+            memset(checkRole, 0, strlen(checkRole));
         }
         free(tempString);
     }
@@ -67,22 +82,48 @@ struct name_basics *get_name (char *path) {
 
     completeList = malloc(sizeof(struct name_basics) * numRole);
 
-    /*Create structures*/
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
-        tempString = malloc(sizeof(char) * 50 + 1);
-        tempString = get_column(tempLine, tempString, 5);
+        buffer4 = malloc(sizeof(char) * 50 + 1);
+        if (buffer4 == NULL) {
+            printf ("buffer failed");
+        }
+        buffer4 = get_column(tempLine, buffer4, 5);
+        tempString2 = malloc(strlen(buffer4) + 1);
+        if (tempString == NULL) {
+            printf ("tempstring failed");
+        }
+        strcpy(tempString2, buffer4);
+        memset(buffer4, 0, strlen(buffer4));
+        free(buffer4);
 
-        tempID = malloc(sizeof(char) * 100 + 1);
-        tempID = get_column(tempLine, tempID, 1);
+        buffer2 = malloc(sizeof(char) * 50 + 1);
+        if (buffer2 == NULL) {
+            printf ("buffer2 failed");
+        }
+        buffer2 = get_column(tempLine, buffer2, 1);
+        tempID = malloc(strlen(buffer2) + 1);
+        if (tempID == NULL) {
+            printf ("tempid failed");
+        }
+        strcpy(tempID, buffer2);
+        memset(buffer2, 0, strlen(buffer2));
+        free(buffer2);
 
-        tempName = malloc(sizeof(char) * 100 + 1);
-        tempName = get_column(tempLine, tempName, 2);
+        buffer3 = malloc(sizeof(char) * 50 + 1);
+        if (buffer3 == NULL) {
+            printf ("buffer3 failed");
+        }
+        buffer3 = get_column(tempLine, buffer3, 2);
+        tempName = malloc(strlen(buffer3) + 1);
+        if (tempName == NULL) {
+            printf ("Tempname failed");
+        }
+        strcpy(tempName, buffer3);
+        memset(buffer3, 0, strlen(buffer3));
+        free(buffer3);
 
-        checkRole = strstr(tempString, actorString);
-        if (checkRole) {/*
-            printf ("%s\n", checkRole);*/
-            /*Get 1st and 2nd column*//*
-            printf ("%s: %s\n", tempID, tempName);*/
+        checkRole = strstr(tempString2, actorString);
+        if (checkRole) {
             completeList[structNum].nconst = malloc (strlen(tempID) + 1);
             completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
             strcpy(completeList[structNum].nconst, (char *) tempID);
@@ -90,13 +131,8 @@ struct name_basics *get_name (char *path) {
             structNum++;
         }
         else {
-            checkRole = strstr(tempString, actressString);
-            if (checkRole) {/*
-                printf ("%s\n", checkRole);*/
-                /*Get 1st and 2nd column*/
-                /*fix structure creation*/
-                /*weird gibberish at front two letters*//*
-                printf ("%s: %s\n", tempID, tempName);*/
+            checkRole = strstr(tempString2, actressString);
+            if (checkRole) {
                 completeList[structNum].nconst = malloc (strlen(tempID) + 1);
                 completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
                 strcpy(completeList[structNum].nconst, (char *) tempID);
@@ -104,20 +140,16 @@ struct name_basics *get_name (char *path) {
                 structNum++;
             }
         }
-        /*
-        printf ("%s\n", tempString);*/
-        tempString[0] = '\0';
-        free(tempString);
-        tempID[0] = '\0';
+        memset(tempString2, 0, strlen(tempString2));
+        free(tempString2);
+        memset(tempID, 0, strlen(tempID));
         free(tempID);
-        tempName[0] = '\0';
+        memset(tempName, 0, strlen(tempName));
         free(tempName);
     }
 
-    free(actorString);
-    free(actressString);
     free(fullPath);
-    free(fp);
+    fclose(fp);
 
     return completeList;
 
