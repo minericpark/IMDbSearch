@@ -14,10 +14,6 @@ struct name_basics *get_name (char *path) {
     char *tempName;
     char *tempID;
     char *checkRole;
-    char *buffer;
-    char *buffer2;
-    char *buffer3;
-    char *buffer4;
     char *actorString = "actor";
     char *actressString = "actress";
     char *fileName = "/name.basics.tsv";
@@ -42,19 +38,8 @@ struct name_basics *get_name (char *path) {
     /*Find all instances of actors/actresses*/
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
         /*printf ("%s\n", tempLine);*/
-        buffer = malloc(sizeof(char) * 50 + 1);
-        if (buffer == NULL) {
-            printf ("buffer failed");
-        }
         /*Copy into tempString, the buffer*/
-        buffer = get_column(tempLine, buffer, 5);
-        tempString = malloc(strlen(buffer) + 1);
-        if (buffer == NULL) {
-            printf ("tempstring failed");
-        }
-        strcpy(tempString, buffer);
-        memset(buffer, 0, strlen(buffer));
-        free(buffer);
+        tempString = get_column(tempLine, tempString, 5);
 
         checkRole = strstr(tempString, actorString);
         if (checkRole) {/*
@@ -83,44 +68,10 @@ struct name_basics *get_name (char *path) {
     completeList = malloc(sizeof(struct name_basics) * numRole);
 
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
-        buffer4 = malloc(sizeof(char) * 50 + 1);
-        if (buffer4 == NULL) {
-            printf ("buffer failed");
-        }
-        buffer4 = get_column(tempLine, buffer4, 5);
-        tempString2 = malloc(strlen(buffer4) + 1);
-        if (tempString == NULL) {
-            printf ("tempstring failed");
-        }
-        strcpy(tempString2, buffer4);
-        memset(buffer4, 0, strlen(buffer4));
-        free(buffer4);
 
-        buffer2 = malloc(sizeof(char) * 50 + 1);
-        if (buffer2 == NULL) {
-            printf ("buffer2 failed");
-        }
-        buffer2 = get_column(tempLine, buffer2, 1);
-        tempID = malloc(strlen(buffer2) + 1);
-        if (tempID == NULL) {
-            printf ("tempid failed");
-        }
-        strcpy(tempID, buffer2);
-        memset(buffer2, 0, strlen(buffer2));
-        free(buffer2);
-
-        buffer3 = malloc(sizeof(char) * 50 + 1);
-        if (buffer3 == NULL) {
-            printf ("buffer3 failed");
-        }
-        buffer3 = get_column(tempLine, buffer3, 2);
-        tempName = malloc(strlen(buffer3) + 1);
-        if (tempName == NULL) {
-            printf ("Tempname failed");
-        }
-        strcpy(tempName, buffer3);
-        memset(buffer3, 0, strlen(buffer3));
-        free(buffer3);
+        tempString2 = get_column(tempLine, tempString2, 5);
+        tempID = get_column(tempLine, tempID, 1);
+        tempName = get_column(tempLine, tempName, 2);
 
         checkRole = strstr(tempString2, actorString);
         if (checkRole) {

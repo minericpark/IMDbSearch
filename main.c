@@ -12,7 +12,6 @@ int main(void) {
 
     test = get_name("fulldata");
 
-
     for (i = 0; i < 81; i++) {
         printf ("%s - %s\n", test[i].nconst, test[i].primaryName);
     }
