@@ -1,3 +1,4 @@
+#include "binary.h"
 #include "name.h"
 #include "title.h"
 #include "principals.h"
@@ -9,51 +10,54 @@
 
 int main(void) {
 
-    struct name_basics *testName;
-    struct title_basics *testTitle;
-    struct title_principals *testPrincipals;
+    struct name_root *testName;
+    struct title_root *testTitle;
+    struct principals_root *testPrincipals;
     int testNameSize = 0;
     int testTitleSize = 0;
     int testPrincipalsSize = 0;
     int i =0;
 
-    testName = get_name("fulldata");
-    testNameSize = getBasicSize("fulldata");
+    testName = get_name("data");
+    testNameSize = testName->numItems;
     printf ("size: %d\n", testNameSize);
-    testTitle = get_title("fulldata");
-    testTitleSize = getTitleSize("fulldata");
+    testTitle = get_title("data");
+    testTitleSize = testTitle->numItems;
     printf ("size: %d\n", testTitleSize);
-    testPrincipals = get_principals("fulldata");
-    testPrincipalsSize = getPrincipalsSize("fulldata");
+    testPrincipals = get_principals("data");
+    testPrincipalsSize = testPrincipals->numItems;
     printf ("size: %d\n", testPrincipalsSize);
 
     for (i = 0; i < 10; i++) {
-        printf ("%s - %s\n", testName[i].nconst, testName[i].primaryName);
+        printf ("%s - %s\n", (testName->array)[i].nconst, (testName->array)[i].primaryName);
     }
     for (i = 0; i < 10; i++) {
-        printf("%s - %s\n", testTitle[i].tconst, testTitle[i].primaryTitle);
+        printf("%s - %s\n", (testTitle->array)[i].tconst, (testTitle->array)[i].primaryTitle);
     }
     for (i = 0; i < 10; i++) {
-        printf ("%s - %s - %s\n", testPrincipals[i].tconst, testPrincipals[i].nconst, testPrincipals[i].characters);
+        printf ("%s - %s - %s\n", (testPrincipals->array)[i].tconst, (testPrincipals->array)[i].nconst, (testPrincipals->array)[i].characters);
     }
 
     for (i = 0; i < testNameSize; i++) {
-        free(testName[i].nconst);
-        free(testName[i].primaryName);
+        free((testName->array)[i].nconst);
+        free((testName->array)[i].primaryName);
     }
+    free(testName->array);
     free(testName);
 
     for (i = 0; i < testTitleSize; i++) {
-        free(testTitle[i].tconst);
-        free(testTitle[i].primaryTitle);
+        free((testTitle->array)[i].tconst);
+        free((testTitle->array)[i].primaryTitle);
     }
+    free(testTitle->array);
     free(testTitle);
 
     for (i = 0; i < testPrincipalsSize; i++) {
-        free(testPrincipals[i].tconst);
-        free(testPrincipals[i].nconst);
-        free(testPrincipals[i].characters);
+        free((testPrincipals->array)[i].tconst);
+        free((testPrincipals->array)[i].nconst);
+        free((testPrincipals->array)[i].characters);
     }
+    free(testPrincipals->array);
     free(testPrincipals);
 
     return 0;

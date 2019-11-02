@@ -10,5 +10,4 @@ struct title_basics {
     char *primaryTitle;
 };
 
-struct title_basics *get_title (char *path);
-int getTitleSize (char *path);
+struct title_root *get_title (char *path);

@@ -1,3 +1,4 @@
+#include "binary.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

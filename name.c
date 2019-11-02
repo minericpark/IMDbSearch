@@ -1,13 +1,14 @@
 #include "name.h"
+#include "binary.h"
 #include "common.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
-struct name_basics *get_name (char *path) {
+struct name_root *get_name (char *path) {
 
-    struct name_basics *completeList;
+    struct name_root *treeStarter;
     char *fullPath;
     char *tempString;
     char *tempString2;
@@ -34,6 +35,8 @@ struct name_basics *get_name (char *path) {
     if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
         printf ("File not found.");
     }
+
+    treeStarter = malloc (sizeof(struct name_root));
 
     /*Find all instances of actors/actresses*/
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
@@ -65,7 +68,8 @@ struct name_basics *get_name (char *path) {
     fseek(fp, 0, SEEK_SET);
     printf ("# of Actor/Actresses: %d\n", numRole);
 
-    completeList = malloc(sizeof(struct name_basics) * numRole);
+    treeStarter->numItems = numRole;
+    treeStarter->array = malloc(sizeof(struct name_basics) * numRole);
 
     while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
 
@@ -75,19 +79,19 @@ struct name_basics *get_name (char *path) {
 
         checkRole = strstr(tempString2, actorString);
         if (checkRole) {
-            completeList[structNum].nconst = malloc (strlen(tempID) + 1);
-            completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
-            strcpy(completeList[structNum].nconst, (char *) tempID);
-            strcpy(completeList[structNum].primaryName, tempName);
+            (treeStarter->array)[structNum].nconst = malloc (strlen(tempID) + 1);
+            (treeStarter->array)[structNum].primaryName = malloc (strlen(tempName) + 1);
+            strcpy((treeStarter->array)[structNum].nconst, (char *) tempID);
+            strcpy((treeStarter->array)[structNum].primaryName, tempName);
             structNum++;
         }
         else {
             checkRole = strstr(tempString2, actressString);
             if (checkRole) {
-                completeList[structNum].nconst = malloc (strlen(tempID) + 1);
-                completeList[structNum].primaryName = malloc (strlen(tempName) + 1);
-                strcpy(completeList[structNum].nconst, (char *) tempID);
-                strcpy(completeList[structNum].primaryName, tempName);
+                (treeStarter->array)[structNum].nconst = malloc (strlen(tempID) + 1);
+                (treeStarter->array)[structNum].primaryName = malloc (strlen(tempName) + 1);
+                strcpy((treeStarter->array)[structNum].nconst, (char *) tempID);
+                strcpy((treeStarter->array)[structNum].primaryName, tempName);
                 structNum++;
             }
         }
@@ -99,10 +103,13 @@ struct name_basics *get_name (char *path) {
         free(tempName);
     }
 
+    treeStarter->rootOne = NULL;
+    treeStarter->rootTwo = NULL;
+
     free(fullPath);
     fclose(fp);
 
-    return completeList;
+    return treeStarter;
 
 }
 
