@@ -10,3 +10,6 @@ struct title_principals {
     char *nconst;
     char *characters;
 };
+
+
+struct title_principals *get_principals (char *path);

@@ -39,7 +39,8 @@ char *get_column (char *line, char *copyTarget, int colNum) {
             }
         }
     }
-
+/*
+    printf ("%d, %d\n", secLoc, firstLoc);*/
     copyTarget = malloc(sizeof(char) * (secLoc - firstLoc) + 1);
     strncpy(copyTarget, line + firstLoc, secLoc - firstLoc);
     copyTarget[secLoc - firstLoc] = '\0';
