@@ -13,3 +13,4 @@ struct title_principals {
 
 
 struct title_principals *get_principals (char *path);
+int getPrincipalsSize (char *path);

@@ -102,3 +102,61 @@ struct title_basics *get_title (char *path) {
     return completeList;
 
 }
+
+int getTitleSize(char *path) {
+    char *fullPath;
+    char *tempString;
+    char *tempString2;
+    char *checkRole;
+    char *checkRole2;
+    char *zeroString = "0";
+    char *movieString = "movie";
+    char *fileName = "/title.basics.tsv";
+    char tempLine[1000];
+    int numRole = 0;
+    FILE *fp;
+
+    fullPath = malloc(strlen(path) + strlen(fileName) + 1);
+    if (fullPath == NULL) {
+        printf ("fullpath failed");
+    }
+    /*Complete file name*/
+    strcpy(fullPath, path);
+    strcat(fullPath, fileName);
+
+    if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
+        printf ("File not found.");
+    }
+
+    /*titleType -> col2
+     * isAdult -> col5*/
+    while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
+        /*Get titleType col and isAdult col*/
+        tempString = get_column(tempLine, tempString, 2);
+        tempString2 = get_column(tempLine, tempString2, 5);
+
+        /*Check both titleType and isAdult*/
+        checkRole = strstr(tempString, movieString);
+        checkRole2 = strstr(tempString2, zeroString);
+        if (checkRole && checkRole2) {
+            numRole++;
+        }
+        memset(tempString, 0, strlen(tempString));
+        memset(tempString2, 0, strlen(tempString2));
+        if (checkRole != NULL) {
+            memset(checkRole, 0, strlen(checkRole));
+        }
+        if (checkRole2 != NULL) {
+            memset(checkRole, 0, strlen(checkRole2));
+        }
+        free(tempString);
+        free(tempString2);
+    }
+
+    fseek(fp, 0, SEEK_SET);
+
+    free(fullPath);
+    fclose(fp);
+
+    return numRole;
+}

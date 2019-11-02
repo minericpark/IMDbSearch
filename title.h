@@ -11,3 +11,4 @@ struct title_basics {
 };
 
 struct title_basics *get_title (char *path);
+int getTitleSize (char *path);

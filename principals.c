@@ -109,3 +109,56 @@ struct title_principals *get_principals (char *path) {
 
 }
 
+int getPrincipalsSize(char *path) {
+    char *fullPath;
+    char *tempString;
+    char *checkRole;
+    char *actorString = "actor";
+    char *actressString = "actress";
+    char *fileName = "/title.principals.tsv";
+    char tempLine[1000];
+    int numRole = 0;
+    FILE *fp;
+
+    fullPath = malloc(strlen(path) + strlen(fileName) + 1);
+    if (fullPath == NULL) {
+        printf ("fullpath failed");
+    }
+    /*Complete file name*/
+    strcpy(fullPath, path);
+    strcat(fullPath, fileName);
+    /*printf ("%s\n", fullPath);*/
+
+    if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
+        printf ("File not found.");
+    }
+
+    /*Find all instances of actors/actresses*/
+    while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
+        /*Category -> section 4*/
+        tempString = get_column(tempLine, tempString, 4);
+
+        checkRole = strstr(tempString, actorString);
+        if (checkRole) {
+            numRole++;
+        }
+        else {
+            checkRole = strstr(tempString, actressString);
+            if (checkRole) {
+                numRole++;
+            }
+        }
+        memset(tempString, 0, strlen(tempString));
+        if (checkRole != NULL) {
+            memset(checkRole, 0, strlen(checkRole));
+        }
+        free(tempString);
+    }
+
+    fseek(fp, 0, SEEK_SET);
+
+    free(fullPath);
+    fclose(fp);
+
+    return numRole;
+}

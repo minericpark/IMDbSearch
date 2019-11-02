@@ -11,3 +11,4 @@ struct name_basics {
 };
 
 struct name_basics *get_name(char *path);
+int getBasicSize (char *path);
