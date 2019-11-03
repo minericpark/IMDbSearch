@@ -108,3 +108,18 @@ struct title_root *get_title (char *path) {
     return treeStarter;
 
 }
+
+void build_tindex (struct title_root *treeStarter) {
+    int i;
+
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_title (&(treeStarter->rootOne), (treeStarter->array[i]).primaryTitle, &(treeStarter->array[i]));
+    }
+    /*printf ("all nodes added");*/
+}
+
+struct title_basics *find_primary_title (struct title_root *treeStarter, char *target) {
+
+    return find(treeStarter->rootOne, target)->data;
+
+}

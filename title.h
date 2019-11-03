@@ -11,3 +11,5 @@ struct title_basics {
 };
 
 struct title_root *get_title (char *path);
+void build_tindex(struct title_root *treeStarter);
+struct title_basics *find_primary_title (struct title_root *treeStarter, char *target);

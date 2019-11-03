@@ -31,3 +31,7 @@ struct principals_root {
     struct tree_struct *rootOne;
     struct tree_struct *rootTwo;
 };
+
+void add_node_title (struct tree_struct **root, char *title, struct title_basics *givenStruct);
+void add_node_name (struct tree_struct **root, char *name, struct name_basics *givenStruct);
+struct tree_struct *find (struct tree_struct *root, char *target);

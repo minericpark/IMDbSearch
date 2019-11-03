@@ -113,61 +113,17 @@ struct name_root *get_name (char *path) {
 
 }
 
-int getBasicSize(char *path) {
+void build_nindex (struct name_root *treeStarter) {
+    int i;
 
-    char *fullPath;
-    char *tempString;
-    char *checkRole;
-    char *actorString = "actor";
-    char *actressString = "actress";
-    char *fileName = "/name.basics.tsv";
-    char tempLine[255];
-    int numRole = 0;
-    FILE *fp;
-
-    fullPath = malloc(strlen(path) + strlen(fileName) + 1);
-    if (fullPath == NULL) {
-        printf ("fullpath failed");
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_name (&(treeStarter->rootOne), (treeStarter->array[i]).primaryName, &(treeStarter->array[i]));
     }
-    /*Complete file name*/
-    strcpy(fullPath, path);
-    strcat(fullPath, fileName);
-    /*printf ("%s\n", fullPath);*/
+    /*printf ("all nodes added");*/
+}
 
-    if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
-        printf ("File not found.");
-    }
+struct name_basics *find_primary_name (struct name_root *treeStarter, char *target) {
 
-    /*Find all instances of actors/actresses*/
-    while (fgets (tempLine, sizeof(tempLine), fp) != NULL) {
-        /*printf ("%s\n", tempLine);*/
-        /*Copy into tempString, the buffer*/
-        tempString = get_column(tempLine, tempString, 5);
+    return find(treeStarter->rootOne, target)->data;
 
-        checkRole = strstr(tempString, actorString);
-        if (checkRole) {/*
-            printf ("%s\n", checkRole);*/
-            numRole++;
-        }
-        else {
-            checkRole = strstr(tempString, actressString);
-            if (checkRole) {/*
-                printf ("%s\n", checkRole);*/
-                numRole++;
-            }
-        }
-        /*
-        printf ("%s\n", tempString);*/
-        memset(tempString, 0, strlen(tempString));
-        if (checkRole != NULL) {
-            memset(checkRole, 0, strlen(checkRole));
-        }
-        free(tempString);
-    }
-    fseek(fp, 0, SEEK_SET);
-
-    free(fullPath);
-    fclose(fp);
-
-    return numRole;
 }
