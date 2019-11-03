@@ -79,8 +79,8 @@ struct principals_root *get_principals (char *path) {
             (treeStarter->array)[structNum].tconst = malloc (strlen(tempID) + 1);
             (treeStarter->array)[structNum].nconst = malloc (strlen(tempIDTwo) + 1);
             (treeStarter->array)[structNum].characters = malloc (strlen(tempCharacters) + 1);
-            strcpy((treeStarter->array)[structNum].tconst, (char *) tempID);
-            strcpy((treeStarter->array)[structNum].nconst, (char *) tempIDTwo);
+            strcpy((treeStarter->array)[structNum].tconst, reverse_word((char *) tempID));
+            strcpy((treeStarter->array)[structNum].nconst, reverse_word((char *) tempIDTwo));
             strcpy((treeStarter->array)[structNum].characters, tempCharacters);
             structNum++;
         }
@@ -90,8 +90,8 @@ struct principals_root *get_principals (char *path) {
                 (treeStarter->array)[structNum].tconst = malloc (strlen(tempID) + 1);
                 (treeStarter->array)[structNum].nconst = malloc (strlen(tempIDTwo) + 1);
                 (treeStarter->array)[structNum].characters = malloc (strlen(tempCharacters) + 1);
-                strcpy((treeStarter->array)[structNum].tconst, (char *) tempID);
-                strcpy((treeStarter->array)[structNum].nconst, (char *) tempIDTwo);
+                strcpy((treeStarter->array)[structNum].tconst, reverse_word((char *) tempID));
+                strcpy((treeStarter->array)[structNum].nconst, reverse_word((char *) tempIDTwo));
                 strcpy((treeStarter->array)[structNum].characters, tempCharacters);
                 structNum++;
             }
@@ -113,5 +113,39 @@ struct principals_root *get_principals (char *path) {
     fclose(fp);
 
     return treeStarter;
+
+}
+
+/*Creates tree for tconst*/
+void build_tindex_tp (struct principals_root *treeStarter) {
+    int i;
+
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_principals (&(treeStarter->rootOne), (treeStarter->array[i]).tconst, &(treeStarter->array[i]));
+    }
+    /*printf ("all nodes added");*/
+}
+
+/*Creates tree for nconst*/
+void build_nindex_tp (struct principals_root *treeStarter) {
+    int i;
+
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_principals (&(treeStarter->rootTwo), (treeStarter->array[i]).nconst, &(treeStarter->array[i]));
+    }
+    /*printf ("all nodes added");*/
+}
+
+/*Searches through tconst tree*/
+struct title_principals *find_tconst_tp (struct principals_root *treeStarter, char *target) {
+
+    return find(treeStarter->rootOne, target)->data;
+
+}
+
+/*Searches through nconst tree*/
+struct title_principals *find_nconst_tp (struct principals_root *treeStarter, char *target) {
+
+    return find(treeStarter->rootTwo, target)->data;
 
 }

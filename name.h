@@ -11,5 +11,7 @@ struct name_basics {
 };
 
 struct name_root *get_name(char *path);
+void build_pnindex(struct name_root *treeStarter);
 void build_nindex(struct name_root *treeStarter);
 struct name_basics *find_primary_name(struct name_root *treeStarter, char *target);
+struct name_basics *find_nconst (struct name_root *treeStarter, char *target);

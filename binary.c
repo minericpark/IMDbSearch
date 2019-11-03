@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <string.h>
 
+/*Function that adds nodes into title tree*/
 void add_node_title( struct tree_struct **root, char *title, struct title_basics *givenStruct) {
     if (*root) {
         if (strcmp(title, (*root)->key) < 0) {
@@ -27,6 +28,7 @@ void add_node_title( struct tree_struct **root, char *title, struct title_basics
     }
 }
 
+/*Function that adds nodes into name tree*/
 void add_node_name( struct tree_struct **root, char *name, struct name_basics *givenStruct) {
     if (*root) {
         if (strcmp(name, (*root)->key) < 0) {
@@ -47,6 +49,28 @@ void add_node_name( struct tree_struct **root, char *name, struct name_basics *g
     }
 }
 
+/*Function that adds nodes into principals tree*/
+void add_node_principals( struct tree_struct **root, char *principals, struct title_principals *givenStruct) {
+    if (*root) {
+        if (strcmp(principals, (*root)->key) < 0) {
+            add_node_principals( &((*root)->children[0]), principals, givenStruct);
+            /*printf ("node added to left\n");*/
+        }
+        else {
+            add_node_principals( &((*root)->children[1]), principals, givenStruct);
+            /*printf ("node added to right\n");*/
+        }
+    }
+    else {
+        (*root) = malloc( sizeof( struct tree_struct ));
+        (*root)->key = principals;
+        (*root)->data = givenStruct;
+        (*root)->children[0]=NULL;
+        (*root)->children[1]=NULL;
+    }
+}
+
+/*Function that searches through entire trees*/
 struct tree_struct *find( struct tree_struct *root, char *target )
 {
     if (root)
@@ -74,45 +98,7 @@ struct tree_struct *find( struct tree_struct *root, char *target )
     }
 }
 
-
 /*
-void add_node_name( struct tree_struct **root, char *id, struct name_basics givenStruct) {
-    if (*root) {
-        if (strcmp(id, (*root)->key) < 0) {
-            add_node( &((*root)->children[0]), id, givenStruct);
-        }
-        else {
-            add_node( &((*root)->children[1]), id, givenStruct);
-        }
-    }
-    else {
-        (*root) = malloc( sizeof( struct tree_struct ) );
-        (*root)->key = id;
-        (*root)->data = malloc(sizeof(struct name_basics));
-        (*root)->data = &givenStruct;
-        (*root)->children[0]=NULL;
-        (*root)->children[1]=NULL;
-    }
-}
-
-void add_node_principals( struct tree_struct **root, char *id, struct principals_basics givenStruct) {
-    if (*root) {
-        if (strcmp(id, (*root)->key) < 0) {
-            add_node( &((*root)->children[0]), id, givenStruct);
-        }
-        else {
-            add_node( &((*root)->children[1]), id, givenStruct);
-        }
-    }
-    else {
-        (*root) = malloc( sizeof( struct tree_struct ) );
-        (*root)->key = id;
-        (*root)->data = malloc(sizeof(struct principals_basics));
-        (*root)->data = &givenStruct;
-        (*root)->children[0]=NULL;
-        (*root)->children[1]=NULL;
-    }
-}
 
 void free_tree( struct tree *root )
 {

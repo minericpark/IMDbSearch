@@ -81,7 +81,7 @@ struct name_root *get_name (char *path) {
         if (checkRole) {
             (treeStarter->array)[structNum].nconst = malloc (strlen(tempID) + 1);
             (treeStarter->array)[structNum].primaryName = malloc (strlen(tempName) + 1);
-            strcpy((treeStarter->array)[structNum].nconst, (char *) tempID);
+            strcpy((treeStarter->array)[structNum].nconst, reverse_word((char *) tempID));
             strcpy((treeStarter->array)[structNum].primaryName, tempName);
             structNum++;
         }
@@ -90,7 +90,7 @@ struct name_root *get_name (char *path) {
             if (checkRole) {
                 (treeStarter->array)[structNum].nconst = malloc (strlen(tempID) + 1);
                 (treeStarter->array)[structNum].primaryName = malloc (strlen(tempName) + 1);
-                strcpy((treeStarter->array)[structNum].nconst, (char *) tempID);
+                strcpy((treeStarter->array)[structNum].nconst, reverse_word((char *) tempID));
                 strcpy((treeStarter->array)[structNum].primaryName, tempName);
                 structNum++;
             }
@@ -113,7 +113,7 @@ struct name_root *get_name (char *path) {
 
 }
 
-void build_nindex (struct name_root *treeStarter) {
+void build_pnindex (struct name_root *treeStarter) {
     int i;
 
     for (i = 0; i < treeStarter->numItems; i++) {
@@ -122,8 +122,25 @@ void build_nindex (struct name_root *treeStarter) {
     /*printf ("all nodes added");*/
 }
 
+/*Creates tree for tconst*/
+void build_nindex (struct name_root *treeStarter) {
+    int i;
+
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_name (&(treeStarter->rootTwo), (treeStarter->array[i]).nconst, &(treeStarter->array[i]));
+    }
+    /*printf ("all nodes added");*/
+}
+
 struct name_basics *find_primary_name (struct name_root *treeStarter, char *target) {
 
     return find(treeStarter->rootOne, target)->data;
+
+}
+
+/*Finds tconst*/
+struct name_basics *find_nconst (struct name_root *treeStarter, char *target) {
+
+    return find(treeStarter->rootTwo, target)->data;
 
 }

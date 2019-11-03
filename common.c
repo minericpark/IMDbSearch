@@ -46,3 +46,20 @@ char *get_column (char *line, char *copyTarget, int colNum) {
     copyTarget[secLoc - firstLoc] = '\0';
     return copyTarget;
 }
+
+char *reverse_word (char *target) {
+    int i;
+    int first = 0;
+    int last = strlen(target) - 1;
+    char temp;
+
+    for (i = 0; i < strlen(target)/2; i++) {
+        temp = target[first];
+        target[first] = target[last];
+        target[last] = temp;
+        last--;
+        first++;
+    }
+
+    return target;
+}

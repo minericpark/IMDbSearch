@@ -85,7 +85,7 @@ struct title_root *get_title (char *path) {
         if (checkRole && checkRole2) {
             (treeStarter->array)[structNum].tconst = malloc (strlen(tempID) + 1);
             (treeStarter->array)[structNum].primaryTitle = malloc (strlen(tempTitle) + 1);
-            strcpy((treeStarter->array)[structNum].tconst, (char *) tempID);
+            strcpy((treeStarter->array)[structNum].tconst, reverse_word((char *) tempID));
             strcpy((treeStarter->array)[structNum].primaryTitle, tempTitle);
             structNum++;
         }
@@ -109,7 +109,8 @@ struct title_root *get_title (char *path) {
 
 }
 
-void build_tindex (struct title_root *treeStarter) {
+/*Creates tree for primary title*/
+void build_ptindex (struct title_root *treeStarter) {
     int i;
 
     for (i = 0; i < treeStarter->numItems; i++) {
@@ -118,8 +119,26 @@ void build_tindex (struct title_root *treeStarter) {
     /*printf ("all nodes added");*/
 }
 
+/*Creates tree for tconst*/
+void build_tindex (struct title_root *treeStarter) {
+    int i;
+
+    for (i = 0; i < treeStarter->numItems; i++) {
+        add_node_title (&(treeStarter->rootTwo), (treeStarter->array[i]).tconst, &(treeStarter->array[i]));
+    }
+    /*printf ("all nodes added");*/
+}
+
+/*Finds primary title*/
 struct title_basics *find_primary_title (struct title_root *treeStarter, char *target) {
 
     return find(treeStarter->rootOne, target)->data;
+
+}
+
+/*Finds tconst*/
+struct title_basics *find_tconst (struct title_root *treeStarter, char *target) {
+
+    return find(treeStarter->rootTwo, target)->data;
 
 }
