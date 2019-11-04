@@ -64,8 +64,8 @@ struct title_root *get_title (char *path) {
         free(tempString2);
     }
 
-    fseek(fp, 0, SEEK_SET);
-    printf ("# of Titles with 0 Adults: %d\n", numRole);
+    fseek(fp, 0, SEEK_SET);/*
+    printf ("# of Titles with 0 Adults: %d\n", numRole);*/
 
     treeStarter->numItems = numRole;
     treeStarter->array = malloc(sizeof(struct title_basics) * numRole);
@@ -132,13 +132,28 @@ void build_tindex (struct title_root *treeStarter) {
 /*Finds primary title*/
 struct title_basics *find_primary_title (struct title_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootOne, target)->data;
+    struct tree_struct *retStruct;
 
+    retStruct = find(treeStarter->rootOne, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
 }
 
 /*Finds tconst*/
 struct title_basics *find_tconst (struct title_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootTwo, target)->data;
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootTwo, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
 
 }

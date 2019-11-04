@@ -98,6 +98,29 @@ struct tree_struct *find( struct tree_struct *root, char *target )
     }
 }
 
+/*Function that prints the appropriate branches*/
+struct tree_struct *print(struct name_root *nameRoot, struct tree_struct *root, char *target )
+{
+    if (root)
+    {
+        if (strcmp(target, root->key) < 0 )
+        {
+            return print(nameRoot, root->children[0], target);
+        }
+        else /* value>=(root)->number */
+        {
+            if (find_nconst(nameRoot, target) != NULL) {
+                if (find_nconst(nameRoot, target))
+            }
+            return print(nameRoot, root->children[1], target);
+        }
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 /*
 
 void free_tree( struct tree *root )

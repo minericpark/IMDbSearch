@@ -63,3 +63,74 @@ char *reverse_word (char *target) {
 
     return target;
 }
+
+/*Input getter function*/
+char *get_line(FILE *fp) {
+    char *line;
+    char input;
+    int index = 0;
+    int size = 1; /*Initial size*/
+
+    line = malloc(sizeof(char)*size);
+
+    if (line != NULL) {
+        /*Get character inputs until newline or input has been ended*/
+        while ((input = getchar()) != '\n') {
+            line[index] = input;
+            index++;
+            /*Realloc appropriately to maintain size of pointer*/
+            if (index == size) {
+                size = index + size;
+                line = realloc(line, sizeof(char)*size);
+            }
+        }
+        /*Index null character*/
+        line[index] = '\0';
+    }
+
+    return line;
+}
+
+/*Line trimmer function: a bit buggy but works alright here as long as i free after*/
+char *trim_line(char *target) {
+    char *returnString;
+    int i = 0;
+    int trailing = 0;
+    int count = 0;
+    int wordSize = strlen(target);
+    int returnSize;
+
+    for (i = 0; i < wordSize; i++) {
+        if (target[i] == ' ') {
+            count++;
+        }
+    }
+    if (count == 0) {
+        return target;
+    }
+
+    for (i = 0; i < wordSize; i++) {
+        if (!isspace(target[i])) {
+            break;
+        }
+    }
+
+    returnString = malloc(sizeof(char) * (strlen(target) - i) + 1);
+    strncpy (returnString, target + i, wordSize);
+    returnString[(strlen(target)-i)] = '\0';
+    free(target);
+
+    returnSize = strlen(returnString);
+
+    while (returnSize > 0 && isspace(returnString[returnSize-1])) {
+        returnSize--;
+        trailing = 1;
+    }
+
+    if (trailing == 1) {
+        returnString[returnSize] = '\0';
+        returnString = realloc(returnString, sizeof(char) * (returnSize) + 1);
+    }
+
+    return returnString;
+}

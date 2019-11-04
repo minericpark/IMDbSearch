@@ -65,8 +65,8 @@ struct name_root *get_name (char *path) {
         free(tempString);
     }
 
-    fseek(fp, 0, SEEK_SET);
-    printf ("# of Actor/Actresses: %d\n", numRole);
+    fseek(fp, 0, SEEK_SET);/*
+    printf ("# of Actor/Actresses: %d\n", numRole);*/
 
     treeStarter->numItems = numRole;
     treeStarter->array = malloc(sizeof(struct name_basics) * numRole);
@@ -134,13 +134,31 @@ void build_nindex (struct name_root *treeStarter) {
 
 struct name_basics *find_primary_name (struct name_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootOne, target)->data;
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootOne, target);
+
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
 
 }
 
 /*Finds tconst*/
 struct name_basics *find_nconst (struct name_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootTwo, target)->data;
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootTwo, target);
+
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
 
 }

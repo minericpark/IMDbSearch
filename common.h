@@ -7,3 +7,5 @@
 
 char *get_column (char *line, char *copyTarget, int colNum);
 char *reverse_word (char *target);
+char *get_line (FILE *fp);
+char *trim_line (char *target);

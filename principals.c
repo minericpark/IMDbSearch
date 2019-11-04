@@ -61,8 +61,8 @@ struct principals_root *get_principals (char *path) {
         free(tempString);
     }
 
-    fseek(fp, 0, SEEK_SET);
-    printf ("# of Actor/Actresses: %d\n", numRole);
+    fseek(fp, 0, SEEK_SET);/*
+    printf ("# of Actor/Actresses: %d\n", numRole);*/
 
     treeStarter->numItems = numRole;
     treeStarter->array = malloc(sizeof(struct title_principals) * numRole);
@@ -139,13 +139,41 @@ void build_nindex_tp (struct principals_root *treeStarter) {
 /*Searches through tconst tree*/
 struct title_principals *find_tconst_tp (struct principals_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootOne, target)->data;
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootOne, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
 
 }
 
 /*Searches through nconst tree*/
 struct title_principals *find_nconst_tp (struct principals_root *treeStarter, char *target) {
 
-    return find(treeStarter->rootTwo, target)->data;
+    struct tree_struct *retStruct;
 
+    retStruct = find(treeStarter->rootTwo, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct->data;
+    }
+}
+
+struct tree_struct *find_nconst_tp_node (struct principals_root *treeStarter, char *target) {
+
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootTwo, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct;
+    }
 }
