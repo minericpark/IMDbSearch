@@ -14,34 +14,18 @@ int main(void) {
     struct title_root *testTitle;
     struct principals_root *testPrincipals;
     struct title_basics *testTitleFind;
-    struct title_basics *testTitleFind2;
     struct name_basics *testNameFind;
-    struct name_basics *testNameFind2;
-    struct title_principals *testPrincipalsFind;
-    struct title_principals *testPrincipalsFind2;
     struct tree_struct *testPrincipalsFind3;
+    struct tree_struct *testPrincipalsFind4;
+    struct tree_struct *printStruct;
     char *input;
     char *inputRep;
     char *target;
 
     int indent = 0;
     int strLength;
-    int testNameSize = 0;
-    int testTitleSize = 0;
-    int testPrincipalsSize = 0;
     int i =0;
     int active = 1;
-/*
-    testName = get_name("fulldata");
-    testTitle = get_title("fulldata");
-    testPrincipals = get_principals("fulldata");
-
-    build_ptindex(testTitle);
-    build_tindex(testTitle);
-    build_pnindex(testName);
-    build_nindex(testName);
-    build_tindex_tp(testPrincipals);
-    build_nindex_tp(testPrincipals);*/
 
     testName = get_name("fulldata");
     testTitle = get_title("fulldata");
@@ -77,10 +61,10 @@ int main(void) {
 
         /*Enter name function*/
         if (strncmp(inputRep, "name", 4) == 0) {
-            printf ("entered name\n");
+            i = 0;
+            indent = 0;
             strLength = strlen(inputRep);
             target = malloc (sizeof(char) * strLength - 3);
-            i = 0;
             while (isspace(inputRep[i+4])) { /*Find spaces and indent*/
                 indent++;
                 i++;
@@ -94,7 +78,6 @@ int main(void) {
             testNameFind = find_primary_name(testName, target);
             if (testNameFind == NULL) {
                 printf ("Name not found\n");
-                exit(0);
             }
             else {
                 printf ("%p\n", (void *)testNameFind);
@@ -104,7 +87,9 @@ int main(void) {
                 testPrincipalsFind3 = find_nconst_tp_node(testPrincipals, testNameFind->nconst);
                 if (testPrincipalsFind3 == NULL) {
                     printf ("Title principals not found\n");
-                    exit(0);
+                }
+                else {
+                    printStruct = print(testName, testTitle, testPrincipals, testPrincipalsFind3, testNameFind->nconst);
                 }
                 /*
                 else {
@@ -122,10 +107,10 @@ int main(void) {
         }
             /*Enter title function*/
         else if (strncmp(inputRep, "title", 5) == 0) {
-            printf ("entered title\n");
             strLength = strlen(inputRep);
             target = malloc (sizeof(char) * strLength - 4);
             i = 0;
+            indent = 0;
             while (isspace(inputRep[i+5])) { /*Find spaces and indent*/
                 indent++;
                 i++;
@@ -135,113 +120,55 @@ int main(void) {
             printf ("%s\n", inputRep);
             printf ("%s\n", target);
             free(inputRep);
+            testTitleFind = find_primary_title(testTitle, target);
+            if (testTitleFind == NULL) {
+                printf ("Title not found\n");
+            }
+            else {
+                printf ("%p\n", (void *)testTitleFind);
+                printf ("%s\n", testTitleFind->tconst);
+                printf ("%s\n", testTitleFind->primaryTitle);
 
+                testPrincipalsFind4 = find_tconst_tp_node(testPrincipals, testTitleFind->tconst);
+                if (testPrincipalsFind4 == NULL) {
+                    printf ("Title principals not found\n");
+                }
+                else {
+                    printStruct = print_characters(testName, testTitle, testPrincipals, testPrincipalsFind4, testTitleFind->tconst);
+                }
+            }
         }
     }
 
-
     free(target);
-    /*if title
-     * find_primary_title
-     * find_nconst_tp
-     * find_primary_name
-     * find_*/
+    free_tree(testTitle->rootOne);
+    free_tree(testTitle->rootTwo);
+    free_tree(testName->rootOne);
+    free_tree(testName->rootTwo);
+    free_tree(testPrincipals->rootOne);
+    free_tree(testPrincipals->rootTwo);
 
-    /*
-
-    testNameFind = find_primary_name(testName, "Bruce Lee");
-    testPrincipalsFind = find_nconst_tp(testPrincipals, testNameFind->nconst);
-    testTitleFind = find_tconst(testTitle, testPrincipalsFind->tconst);
-    printf ("%s\n", testTitleFind->primaryTitle);
-/*
-    printf ("building root1 for testtitle\n");
-    build_ptindex(testTitle);
-
-    printf ("finding first index\n");
-    testTitleFind = find_primary_title(testTitle, "Star Wars: Episode V - The Empire Strikes Back");
-
-    printf ("%p\n", (void *)testTitleFind);
-    printf ("%s\n", testTitleFind->tconst);
-    printf ("%s\n", testTitleFind->primaryTitle);
-
-    printf ("building root2 for testTitle\n");
-    build_tindex(testTitle);
-
-    printf ("finding next test\n");
-    testTitleFind2 = find_tconst(testTitle, "4860800tt");
-
-    printf ("%p\n", (void *)testTitleFind2);
-    printf ("%s\n", testTitleFind2->tconst);
-    printf ("%s\n", testTitleFind2->primaryTitle);
-
-    printf ("building root1 for testName\n");
-    build_pnindex(testName);
-
-    printf ("finding first index\n");
-    testNameFind = find_primary_name(testName, "Anthony Daniels");
-
-    printf ("%p\n", (void *)testNameFind);
-    printf ("%s\n", testNameFind->nconst);
-    printf ("%s\n", testNameFind->primaryName);
-
-    printf ("building root2 for testName\n");
-    build_nindex(testName);
-
-    printf ("finding next test\n");
-    testNameFind2 = find_nconst(testName, testNameFind->nconst);
-    printf ("%p\n", (void *)testNameFind2);
-    printf ("%s\n", testNameFind2->nconst);
-    printf ("%s\n", testNameFind2->primaryName);
-
-    printf ("building root1 for titleprincipals\n");
-    build_tindex_tp(testPrincipals);
-
-    printf ("finding first index\n");
-    testPrincipalsFind = find_tconst_tp(testPrincipals, testTitleFind2->tconst);
-    printf ("%p\n", (void *)testPrincipalsFind);
-    printf ("%s\n", testPrincipalsFind->nconst);
-    printf ("%s\n", testPrincipalsFind->tconst);
-
-    printf ("building root2 for titleprincipals\n");
-    build_nindex_tp(testPrincipals);
-
-    printf ("finding next test\n");
-    testPrincipalsFind2 = find_nconst_tp(testPrincipals, testPrincipalsFind->nconst);
-    printf ("%p\n", (void *)testPrincipalsFind2);
-    printf ("%s\n", testPrincipalsFind2->nconst);
-    printf ("%s\n", testPrincipalsFind2->tconst);
-
-    for (i = 0; i < 10; i++) {
-        printf ("%s - %s\n", (testName->array)[i].nconst, (testName->array)[i].primaryName);
-    }
-    for (i = 0; i < 10; i++) {
-        printf("%s - %s\n", (testTitle->array)[i].tconst, (testTitle->array)[i].primaryTitle);
-    }
-    for (i = 0; i < 10; i++) {
-        printf ("%s - %s - %s\n", (testPrincipals->array)[i].tconst, (testPrincipals->array)[i].nconst, (testPrincipals->array)[i].characters);
-    }
-
-    for (i = 0; i < testNameSize; i++) {
+    for (i = 0; i < testName->numItems; i++) {
         free((testName->array)[i].nconst);
         free((testName->array)[i].primaryName);
     }
     free(testName->array);
     free(testName);
 
-    for (i = 0; i < testTitleSize; i++) {
+    for (i = 0; i < testTitle->numItems; i++) {
         free((testTitle->array)[i].tconst);
         free((testTitle->array)[i].primaryTitle);
     }
     free(testTitle->array);
     free(testTitle);
 
-    for (i = 0; i < testPrincipalsSize; i++) {
+    for (i = 0; i < testPrincipals->numItems; i++) {
         free((testPrincipals->array)[i].tconst);
         free((testPrincipals->array)[i].nconst);
         free((testPrincipals->array)[i].characters);
     }
     free(testPrincipals->array);
     free(testPrincipals);
-*/
+
     return 0;
 }

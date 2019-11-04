@@ -99,20 +99,39 @@ struct tree_struct *find( struct tree_struct *root, char *target )
 }
 
 /*Function that prints the appropriate branches*/
-struct tree_struct *print(struct name_root *nameRoot, struct tree_struct *root, char *target )
+struct tree_struct *print(struct name_root *nameRoot, struct title_root *titleRoot, struct principals_root *principalRoot, struct tree_struct *root, char *target )
 {
-    if (root)
-    {
-        if (strcmp(target, root->key) < 0 )
-        {
-            return print(nameRoot, root->children[0], target);
-        }
-        else /* value>=(root)->number */
-        {
-            if (find_nconst(nameRoot, target) != NULL) {
-                if (find_nconst(nameRoot, target))
+    struct tree_struct *tempRoot = root;
+    struct title_basics *tempTitleBasic;
+    struct title_basics *titleCheck;
+    struct title_principals *characterCall;
+
+    if (root) {
+        /*print*/
+        if (strcmp(root->key, target) == 0) {
+            if (tempRoot != NULL) {
+                tempTitleBasic = tempRoot->data;
             }
-            return print(nameRoot, root->children[1], target);
+            if (tempTitleBasic != NULL) {
+                titleCheck = find_tconst(titleRoot, tempTitleBasic->tconst);
+            }
+            if (titleCheck != NULL) {
+                characterCall = find_tconst_tp(principalRoot, titleCheck->tconst);
+                if (characterCall != NULL && strcmp(characterCall->nconst, target) == 0) {
+                    printf ("%s : %s\n", titleCheck->primaryTitle, characterCall->characters);
+                }
+            }
+            return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
+        }
+        else {
+            if (strcmp(target, root->key) < 0 )
+            {
+                return print(nameRoot, titleRoot, principalRoot, root->children[0], target);
+            }
+            else /* value>=(root)->number */
+            {
+                return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
+            }
         }
     }
     else
@@ -121,14 +140,52 @@ struct tree_struct *print(struct name_root *nameRoot, struct tree_struct *root, 
     }
 }
 
-/*
+struct tree_struct *print_characters(struct name_root *nameRoot, struct title_root *titleRoot, struct principals_root *principalRoot, struct tree_struct *root, char *target )
+{
+    struct tree_struct *tempRoot = root;
+    struct name_basics *tempNameBasic;
+    struct name_basics *nameCheck;
+    struct title_principals *characterCall;
 
-void free_tree( struct tree *root )
+    if (root) {
+        /*print*/
+        if (strcmp(root->key, target) == 0) {
+            if (tempRoot != NULL) {
+                tempNameBasic = tempRoot->data;
+            }
+            if (tempNameBasic != NULL) {
+                nameCheck = find_nconst(nameRoot, tempNameBasic->nconst);
+            }
+            if (nameCheck != NULL) {
+                characterCall = find_nconst_tp(principalRoot, nameCheck->nconst);
+                if (characterCall != NULL && strcmp(characterCall->tconst, target) == 0) {
+                    printf ("%s : %s\n", nameCheck->primaryName, characterCall->characters);
+                }
+            }
+            return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
+        }
+        else {
+            if (strcmp(target, root->key) < 0 )
+            {
+                return print(nameRoot, titleRoot, principalRoot, root->children[0], target);
+            }
+            else /* value>=(root)->number */
+            {
+                return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
+            }
+        }
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+void free_tree( struct tree_struct *root )
 {
     if (root)
     {
         free_tree( root->children[0] );
         free_tree( root->children[1] );
-        free( root );
     }
-}*/
+}

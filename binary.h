@@ -36,3 +36,6 @@ void add_node_title (struct tree_struct **root, char *title, struct title_basics
 void add_node_name (struct tree_struct **root, char *name, struct name_basics *givenStruct);
 void add_node_principals (struct tree_struct **root, char *principals, struct title_principals *givenStruct);
 struct tree_struct *find (struct tree_struct *root, char *target);
+struct tree_struct *print(struct name_root *nameRoot, struct title_root *titleRoot, struct principals_root *principalRoot, struct tree_struct *root, char *target );
+struct tree_struct *print_characters(struct name_root *nameRoot, struct title_root *titleRoot, struct principals_root *principalRoot, struct tree_struct *root, char *target );
+void free_tree (struct tree_struct *root);

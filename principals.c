@@ -165,6 +165,20 @@ struct title_principals *find_nconst_tp (struct principals_root *treeStarter, ch
     }
 }
 
+struct tree_struct *find_tconst_tp_node (struct principals_root *treeStarter, char *target) {
+
+    struct tree_struct *retStruct;
+
+    retStruct = find(treeStarter->rootOne, target);
+    if (retStruct == NULL) {
+        return NULL;
+    }
+    else {
+        return retStruct;
+    }
+
+}
+
 struct tree_struct *find_nconst_tp_node (struct principals_root *treeStarter, char *target) {
 
     struct tree_struct *retStruct;
