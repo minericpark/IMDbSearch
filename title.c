@@ -34,8 +34,9 @@ struct title_root *get_title (char *path) {
     strcpy(fullPath, path);
     strcat(fullPath, fileName);
 
-    if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
+    if ((fp = fopen(fullPath, "r")) == NULL) { /*Checks if file exists*/
         printf ("File not found.");
+        fclose(fp);
     }
 
     treeStarter = malloc (sizeof(struct title_root));

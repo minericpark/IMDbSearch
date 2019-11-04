@@ -32,8 +32,9 @@ struct name_root *get_name (char *path) {
     strcat(fullPath, fileName);
     /*printf ("%s\n", fullPath);*/
 
-    if ((fp = fopen(fullPath, "r+")) == NULL) { /*Checks if file exists*/
+    if ((fp = fopen(fullPath, "r")) == NULL) { /*Checks if file exists*/
         printf ("File not found.");
+        fclose(fp);
     }
 
     treeStarter = malloc (sizeof(struct name_root));

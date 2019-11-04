@@ -165,7 +165,7 @@ struct tree_struct *print_characters(struct name_root *nameRoot, struct title_ro
             return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
         }
         else {
-            if (strcmp(target, root->key) < 0 )
+            if (strcmp(target, root->key) > 0 )
             {
                 return print(nameRoot, titleRoot, principalRoot, root->children[0], target);
             }

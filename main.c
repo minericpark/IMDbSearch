@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include <string.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
 
     struct name_root *testName;
     struct title_root *testTitle;
@@ -27,9 +27,14 @@ int main(void) {
     int i =0;
     int active = 1;
 
-    testName = get_name("fulldata");
-    testTitle = get_title("fulldata");
-    testPrincipals = get_principals("fulldata");
+    if (argc==1) {
+        printf ("Error\n");
+        return (0);
+    }
+
+    testName = get_name(argv[1]);
+    testTitle = get_title(argv[1]);
+    testPrincipals = get_principals(argv[1]);
 
     build_ptindex(testTitle);
     build_tindex(testTitle);
