@@ -154,7 +154,7 @@ struct tree_struct *print_characters(struct name_root *nameRoot, struct title_ro
                 tempNameBasic = tempRoot->data;
             }
             if (tempNameBasic != NULL) {
-                nameCheck = find_nconst(nameRoot, tempNameBasic->nconst);
+                nameCheck = find_nconst(nameRoot, tempNameBasic->primaryName);
             }
             if (nameCheck != NULL) {
                 characterCall = find_nconst_tp(principalRoot, nameCheck->nconst);
@@ -162,7 +162,7 @@ struct tree_struct *print_characters(struct name_root *nameRoot, struct title_ro
                     printf ("%s : %s\n", nameCheck->primaryName, characterCall->characters);
                 }
             }
-            return print(nameRoot, titleRoot, principalRoot, root->children[1], target);
+            return print(nameRoot, titleRoot, principalRoot, root->children[0], target);
         }
         else {
             if (strcmp(target, root->key) > 0 )

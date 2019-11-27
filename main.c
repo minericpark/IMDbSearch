@@ -82,19 +82,7 @@ int main(int argc, char *argv[]) {
             if (testNameFind == NULL) {
                 printf ("Name not found\n");
             }
-            else if (strcmp(target, "Keanu Reeves") == 0) {
-                printf ("John Wick : [\"John Wick\"]\n");
-            }
-            else if (strcmp(target, "Taika Waititi") == 0) {
-                printf ("Jojo Rabbit : [\"Director\"]\n");
-                printf ("Thor: Love and Thunder : [\"Korg\"]\n");
-                printf ("Avengers: Endgame : [\"Director\"]\n");
-            }
             else {
-                printf ("%p\n", (void *)testNameFind);
-                printf ("%s\n", testNameFind->nconst);
-                printf ("%s\n", testNameFind->primaryName);
-
                 testPrincipalsFind3 = find_nconst_tp_node(testPrincipals, testNameFind->nconst);
                 if (testPrincipalsFind3 == NULL) {
                     printf ("Title principals not found\n");
@@ -133,19 +121,7 @@ int main(int argc, char *argv[]) {
             if (testTitleFind == NULL) {
                 printf ("Title not found\n");
             }
-            else if (strcmp(target, "Iron Man") == 0) {
-                printf ("Happy Hogan : [\"John Favreau\"]\n");
-            }
-            else if (strcmp(target, "Avengers: Endgame") == 0) {
-                printf ("Captain America : [\"Chris Evans\"]\n");
-                printf ("Thor : [\"Chris Hemsworth\"]\n");
-                printf ("Black Widow : [\"Scarlett Johansson\"]\n");
-            }
             else {
-                printf ("%p\n", (void *)testTitleFind);
-                printf ("%s\n", testTitleFind->tconst);
-                printf ("%s\n", testTitleFind->primaryTitle);
-
                 testPrincipalsFind4 = find_tconst_tp_node(testPrincipals, testTitleFind->tconst);
                 if (testPrincipalsFind4 == NULL) {
                     printf ("Title principals not found\n");
